@@ -1,6 +1,6 @@
 module.exports = function(app) {
     
-    const conn = require('./config/db_config.js');
+    const conn = require('../config/db_config.js');
     
     const dynamoDb = conn.dynamoDb;
     const table = conn.USERS_TABLE;
