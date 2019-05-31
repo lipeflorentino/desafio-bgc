@@ -3,7 +3,7 @@ console.log('criei o controller!');
 const AWS = require('aws-sdk');
 const table = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const User = require('../models/user/userModel.js');
+const User = require('../../models/user/userModel.js');
 
 //metodo do model para listar todas os usuários
 exports.listar_usuarios = function(req, res){
