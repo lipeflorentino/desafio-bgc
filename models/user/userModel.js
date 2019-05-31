@@ -4,7 +4,7 @@ const AWS = require('aws-sdk');
 const table = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-exports.getAllUsers = function getAllUsers(res){
+exports.getAllUsers = function getAllUsers(res, result){
     
     const params = {
       TableName: table
@@ -17,9 +17,11 @@ exports.getAllUsers = function getAllUsers(res){
       } else {
         const { Items } = data;
         if(Items){
-            res.json({Items});    
+            res.json({Items});
+            return result(null, Items);
         }else{
             res.status(404).json({ error: "No user found" });
+            return result(null, error);
         }
       }
     });    

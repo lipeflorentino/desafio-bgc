@@ -7,7 +7,7 @@ const User = require('../../models/user/userModel.js');
 
 //metodo do model para listar todas os usuários
 exports.listar_usuarios = function(req, res){
-    User.getAllUsers(function(err, users) {
+    User.getAllUsers(res, function(err, users) {
         if (err){
           console.log('resultado: ', users);
           return res.send(err);
