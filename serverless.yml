@@ -21,6 +21,15 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:iam::880994143713:user/aws_cloud_user:dynamodb:${self:provider.region}"    
   environment:
     USERS_TABLE: ${self:custom.tableName}
 
