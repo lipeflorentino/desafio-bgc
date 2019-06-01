@@ -52,13 +52,13 @@ exports.createUser = function createUser(req, res, callback){
     const { userId, nome, email, token } = req.body;
     
     if (userId === '') {
-      req.status(400).json({ error: '"userId" cant be blank' });
+      res.status(400).json({ error: '"userId" cant be blank' });
     } else if (nome === '') {
-      req.status(400).json({ error: '"name" cant be blank' });
-    }else if (email !== '') {
-      req.status(400).json({ error: '"name" cant be blank' });
-    }else if (token !== '') {
-      req.status(400).json({ error: '"name" cant be blank' });
+      res.status(400).json({ error: '"name" cant be blank' });
+    }else if (email === '') {
+      res.status(400).json({ error: '"name" cant be blank' });
+    }else if (token === '') {
+      res.status(400).json({ error: '"name" cant be blank' });
     }
   
     const params = {
