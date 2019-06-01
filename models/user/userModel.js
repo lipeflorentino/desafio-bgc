@@ -49,7 +49,7 @@ exports.getUserById = function getUserById(req, res, callback){
 };
 //metodo do model para criar um usuário
 exports.createUser = function createUser(req, res, callback){
-    const { userId, nome, email, token } = req.body;
+    const { userId, nome, email, pass_token } = req.body;
     
     const params = {
       TableName: table,
@@ -57,7 +57,7 @@ exports.createUser = function createUser(req, res, callback){
         userId: userId,
         nome: nome,
         email: email,
-        token: token
+        pass_token: pass_token
       },
     };
   
@@ -67,7 +67,7 @@ exports.createUser = function createUser(req, res, callback){
         console.log(error);
         res.status(400).json({ error: 'Could not create user' });
       }
-      res.json({ success: true, message: 'User created!' , data: {userId, nome, email, token} });
+      res.json({ success: true, message: 'User created!' , data: {userId, nome, email} });
     });      
 };
 //metodo do model para atualizar um usuário
@@ -77,11 +77,11 @@ exports.updateUserById = function updateUserById(req, res, callback){
       Key: {
         userId: req.params.userId,
       },
-      UpdateExpression: "set tb_table.nome = :n, tb_table.email=:e, tb_table.token=:t",
+      UpdateExpression: "set tb_table.nome = :n, tb_table.email=:e, tb_table.pass_token=:t",
       ExpressionAttributeValues:{
           ":n":req.body.nome,
           ":e":req.body.email,
-          ":t":req.body.token
+          ":t":req.body.pass_token
       },
       ReturnValues:"UPDATED_NEW"
     };
