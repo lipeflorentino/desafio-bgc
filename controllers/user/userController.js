@@ -29,7 +29,7 @@ exports.get_user_by_id = function (req, res) {
 };
 //metodo do controller para criar um usuário
 exports.create_user = function (req, res) {
-    User.createUser(req, function(err, users){
+    User.createUser(req, res, function(err, users){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
@@ -42,7 +42,7 @@ exports.create_user = function (req, res) {
 };
 //metodo do controller para atualizar um usuário
 exports.updateUserById = function (req, res){
-    User.updateUserById(req, function(err, users){
+    User.updateUserById(req, res, function(err, users){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
@@ -54,7 +54,7 @@ exports.updateUserById = function (req, res){
 };
 //metodo do controller para remover um usuário
 exports.deleteUserById = function (req, res){
-    User.deleteUserById(req, function(err, data){
+    User.deleteUserById(req, res, function(err, data){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
