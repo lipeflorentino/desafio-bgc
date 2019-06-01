@@ -92,8 +92,7 @@ exports.updateUserById = function updateUserById(req, res, callback){
         res.status(400).json({ error: 'Could not get user' });
       }
       if (result) {
-        const {userId, nome, email} = result.Item;
-        res.json({ success: true, message: 'User updated!', data: {userId, nome, email} });
+        res.json({ success: true, message: 'User updated!', data: result });
       } else {
         res.status(404).json({ error: "User not found" });
       }
