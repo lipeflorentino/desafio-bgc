@@ -54,7 +54,7 @@ exports.createMinion = function createMinion(req, res, callback){
     const params = {
       TableName: table,
       Item: {
-        userId: minionId,
+        minionId: minionId,
         nome: nome,
         descricao: descricao,
         preco: preco
