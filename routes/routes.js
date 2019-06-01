@@ -1,11 +1,8 @@
 module.exports = function(app) {
     
-    const AWS = require('aws-sdk');
-    const table = process.env.USERS_TABLE;
-    const dynamoDb = new AWS.DynamoDB.DocumentClient();
-    
     const userController = require('../controllers/user/userController');
     
+    //Rota padrão
     app.get('/', function (req, res) {
       res.send('Serverless Restful API with Nodejs, welcome!');
     });

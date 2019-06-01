@@ -1,11 +1,8 @@
 console.log('criei o controller!');
 
-const AWS = require('aws-sdk');
-const table = process.env.USERS_TABLE;
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const User = require('../../models/user/userModel.js');
 
-//metodo do model para listar todas os usuários
+//metodo do controller para listar todas os usuários
 exports.listar_usuarios = function(req, res){
     User.getAllUsers(res, function(err, users) {
         if (err){
@@ -18,7 +15,7 @@ exports.listar_usuarios = function(req, res){
         }
     });    
 };
-
+//metodo do controller para buscar usuário por id
 exports.get_user_by_id = function (req, res) {
     User.getUserById(req.params.id, function(err, users){
           if(err){
@@ -30,7 +27,7 @@ exports.get_user_by_id = function (req, res) {
           }
     });
 };
-
+//metodo do controller para criar um usuário
 exports.create_user = function (req, res) {
     User.createUser(req, function(err, users){
         if(err){
@@ -43,6 +40,7 @@ exports.create_user = function (req, res) {
     });
     
 };
+//metodo do controller para atualizar um usuário
 exports.updateUserById = function (req, res){
     User.updateUserById(req, function(err, users){
         if(err){
@@ -51,6 +49,18 @@ exports.updateUserById = function (req, res){
         }else{
           console.log('resultado: ', users);
           res.send(users);
+        }
+    });
+};
+//metodo do controller para remover um usuário
+exports.deleteUserById = function (req, res){
+    User.deleteUserById(req, function(err, data){
+        if(err){
+          console.log('resultado: ', err);
+          res.send(err);
+        }else{
+          console.log('resultado: ', data);
+          res.send(data);
         }
     });
 };
