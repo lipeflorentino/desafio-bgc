@@ -5,7 +5,7 @@ const table = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 //metodo do model para listar todas os usuários
-exports.getAllUsers = function getAllUsers(res, result){
+exports.getAllUsers = function getAllUsers(req, res){
     
     const params = {
       TableName: table

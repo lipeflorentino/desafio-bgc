@@ -4,7 +4,7 @@ const User = require('../../models/user/userModel.js');
 
 //metodo do controller para listar todas os usuários
 exports.listar_usuarios = function(req, res){
-    User.getAllUsers(res, function(err, users) {
+    User.getAllUsers(req, function(err, users) {
         if (err){
           console.log('resultado: ', err);
           return res.send(err);
