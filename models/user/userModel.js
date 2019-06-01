@@ -48,7 +48,7 @@ exports.getUserById = function getUserById(req, res, callback){
     });  
 };
 //metodo do model para criar um usuário
-exports.createUser = function createUser(req, res){
+exports.createUser = function createUser(req, res, callback){
     const { userId, nome, email, token } = req.body;
     
     if (userId === '') {
@@ -70,16 +70,17 @@ exports.createUser = function createUser(req, res){
       },
     };
   
-    dynamoDb.put(params, (error) => {
+    dynamoDb.put(params, function(error, data) {
       if (error) {
         console.log(error);
-        req.status(400).json({ error: 'Could not create user' });
+        res.status(400).json({ error: 'Could not create user' });
       }
-      req.json({ success: 'User created!' , userId, nome, email });
+      console.log('data: ' + data);
+      res.json({ success: 'User created!' , data });
     });      
 };
 //metodo do model para atualizar um usuário
-exports.updateUserById = function updateUserById(req, res){
+exports.updateUserById = function updateUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
@@ -97,18 +98,18 @@ exports.updateUserById = function updateUserById(req, res){
     dynamoDb.update(params, (error, result) => {
       if (error) {
         console.log(error);
-        req.status(400).json({ error: 'Could not get user' });
+        res.status(400).json({ error: 'Could not get user' });
       }
       if (result.Item) {
         const {userId, nome, email} = result.Item;
-        req.json({ success: 'User updated!', userId, nome, email });
+        res.json({ success: 'User updated!', userId, nome, email });
       } else {
-        req.status(404).json({ error: "User not found" });
+        res.status(404).json({ error: "User not found" });
       }
     });  
 };
 //metodo do model para remover um usuário
-exports.deleteUserById = function deleteUserById(req, res){
+exports.deleteUserById = function deleteUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
@@ -119,12 +120,12 @@ exports.deleteUserById = function deleteUserById(req, res){
     dynamoDb.delete(params, (error, result) => {
       if (error) {
         console.log(error);
-        req.status(400).json({ error: 'Could not get user' });
+        res.status(400).json({ error: 'Could not get user' });
       }
       if (result) {
-        req.json({ success: 'User deleted!', result });
+        res.json({ success: 'User deleted!', result });
       } else {
-        req.status(404).json({ error: "User not found" });
+        res.status(404).json({ error: "User not found" });
       }
     });  
 };
