@@ -35,17 +35,16 @@ exports.getUserById = function getUserById(req, res, callback){
     };
     
     dynamoDb.get(params, function(error, data) {
-      if (error) {
-        console.log(error);
-        res.status(400).json({ error: 'Could not get user' });
-      }else{
-        const { Items } = data;
-        if (Items) {
-          res.json({ Items });
+        if (error) {
+          console.log(error);
+          res.status(400).json({ error: 'Could not get user' });
+        }
+        if (data.Item) {
+          const {userId, name} = data.Item;
+          res.json({ userId, name });
         } else {
           res.status(404).json({ error: "User not found" });
         }
-      }
     });  
 };
 //metodo do model para criar um usuário
