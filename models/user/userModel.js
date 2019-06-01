@@ -51,22 +51,13 @@ exports.getUserById = function getUserById(req, res, callback){
 exports.createUser = function createUser(req, res, callback){
     const { userId, nome, email, token } = req.body;
     
-    if (userId === '') {
-      res.status(400).json({ error: '"userId" cant be blank' });
-    } else if (nome === '') {
-      res.status(400).json({ error: '"name" cant be blank' });
-    }else if (email === '') {
-      res.status(400).json({ error: '"name" cant be blank' });
-    }else if (token === '') {
-      res.status(400).json({ error: '"name" cant be blank' });
-    }
-  
     const params = {
       TableName: table,
       Item: {
         userId: userId,
         nome: nome,
-        email: email
+        email: email,
+        token: token
       },
     };
   
