@@ -9,7 +9,7 @@ const User = require('../../models/user/userModel.js');
 exports.listar_usuarios = function(req, res){
     User.getAllUsers(res, function(err, users) {
         if (err){
-          console.log('resultado: ', users);
+          console.log('resultado: ', err);
           return res.send(err);
         }
         else{  
@@ -20,50 +20,37 @@ exports.listar_usuarios = function(req, res){
 };
 
 exports.get_user_by_id = function (req, res) {
-    
-    const params = {
-      TableName: table,
-      Key: {
-        userId: req.params.userId,
-      },
-    };
-    
-    dynamoDb.get(params, (error, result) => {
-      if (error) {
-        console.log(error);
-        res.status(400).json({ error: 'Could not get user' });
-      }
-      if (result.Item) {
-        const {userId, nome, email} = result.Item;
-        res.json({ userId, nome, email });
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
+    User.getUserById(req.params.id, function(err, users){
+          if(err){
+            console.log('resultado: ', err);
+            res.send(err);  
+          }else{
+            console.log('resultado: ', users);
+            res.send(users);
+          }
     });
 };
 
 exports.create_user = function (req, res) {
+    User.createUser(req, function(err, users){
+        if(err){
+          console.log('resultado: ', err);
+          res.send(err);
+        }else{
+          console.log('resultado: ', users);
+          res.send(users);
+        }  
+    });
     
-    const { userId, name } = req.body;
-    if (typeof userId !== 'string') {
-      res.status(400).json({ error: '"userId" must be a string' });
-    } else if (typeof name !== 'string') {
-      res.status(400).json({ error: '"name" must be a string' });
-    }
-  
-    const params = {
-      TableName: table,
-      Item: {
-        userId: userId,
-        name: name,
-      },
-    };
-  
-    dynamoDb.put(params, (error) => {
-      if (error) {
-        console.log(error);
-        res.status(400).json({ error: 'Could not create user' });
-      }
-      res.json({ userId, name });
+};
+exports.updateUserById = function (req, res){
+    User.updateUserById(req, function(err, users){
+        if(err){
+          console.log('resultado: ', err);
+          res.send(err);
+        }else{
+          console.log('resultado: ', users);
+          res.send(users);
+        }
     });
 };
