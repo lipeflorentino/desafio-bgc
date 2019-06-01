@@ -11,6 +11,7 @@ module.exports = function(app) {
     app.get('/users', userController.listar_usuarios);
     app.get('/users/:userId', userController.get_user_by_id);
     app.post('/users', userController.create_user);
+    app.put('/users/:userId', userController.update_user_by_id);
     
     //outras rotas//
 

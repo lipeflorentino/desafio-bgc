@@ -67,7 +67,7 @@ exports.createUser = function createUser(req, res, callback){
         console.log(error);
         res.status(400).json({ error: 'Could not create user' });
       }
-      res.json({ success: 'User created!' , data: {userId, nome, email, token} });
+      res.json({ success: true, message: 'User created!' , data: {userId, nome, email, token} });
     });      
 };
 //metodo do model para atualizar um usuário
@@ -93,7 +93,7 @@ exports.updateUserById = function updateUserById(req, res, callback){
       }
       if (result.Item) {
         const {userId, nome, email} = result.Item;
-        res.json({ success: 'User updated!', data: {userId, nome, email} });
+        res.json({ success: true, message: 'User updated!', data: {userId, nome, email} });
       } else {
         res.status(404).json({ error: "User not found" });
       }
@@ -114,7 +114,7 @@ exports.deleteUserById = function deleteUserById(req, res, callback){
         res.status(400).json({ error: 'Could not get user' });
       }
       if (result) {
-        res.json({ success: 'User deleted!'});
+        res.json({ success: true, message: 'User deleted!'});
       } else {
         res.status(404).json({ error: "User not found" });
       }

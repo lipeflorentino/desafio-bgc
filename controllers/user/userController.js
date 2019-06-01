@@ -41,7 +41,7 @@ exports.create_user = function (req, res) {
     
 };
 //metodo do controller para atualizar um usuário
-exports.updateUserById = function (req, res){
+exports.update_user_by_id = function (req, res){
     User.updateUserById(req, res, function(err, users){
         if(err){
           console.log('resultado: ', err);
