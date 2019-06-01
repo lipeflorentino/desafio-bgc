@@ -5,7 +5,7 @@ const table = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 //metodo do model para listar todas os usuários
-exports.getAllUsers = function getAllUsers(req, res){
+exports.getAllUsers = function getAllUsers(req, res, callback){
     
     const params = {
       TableName: table
@@ -14,19 +14,19 @@ exports.getAllUsers = function getAllUsers(req, res){
     dynamoDb.scan(params, function(error, data) {
       if (error) {
         console.log(error);    
-        return req.status(400).json({ error: 'Could not get user' });
+        return res.status(400).json({ error: 'Could not get user' });
       } else {
         const { Items } = data;
         if(Items){
-            return req.json({Items});
+            return res.json({Items});
         }else{
-            return req.status(404).json({ error: "No user found" });
+            return res.status(404).json({ error: "No user found" });
         }
       }
     });    
 };
 //metodo do model para buscar usuário por id
-exports.getUserById = function getUserById(req, res){
+exports.getUserById = function getUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
@@ -37,13 +37,13 @@ exports.getUserById = function getUserById(req, res){
     dynamoDb.get(params, function(error, data) {
       if (error) {
         console.log(error);
-        req.status(400).json({ error: 'Could not get user' });
+        res.status(400).json({ error: 'Could not get user' });
       }else{
         const { Items } = data;
         if (Items) {
-          req.json({ Items });
+          res.json({ Items });
         } else {
-          req.status(404).json({ error: "User not found" });
+          res.status(404).json({ error: "User not found" });
         }
       }
     });  

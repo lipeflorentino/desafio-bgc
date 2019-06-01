@@ -4,7 +4,7 @@ const User = require('../../models/user/userModel.js');
 
 //metodo do controller para listar todas os usuários
 exports.listar_usuarios = function(req, res){
-    User.getAllUsers(req, function(err, users) {
+    User.getAllUsers(req, res, function(err, users) {
         if (err){
           console.log('resultado: ', err);
           return res.send(err);
@@ -17,7 +17,7 @@ exports.listar_usuarios = function(req, res){
 };
 //metodo do controller para buscar usuário por id
 exports.get_user_by_id = function (req, res) {
-    User.getUserById(req, function(err, users){
+    User.getUserById(req, res, function(err, users){
           if(err){
             console.log('resultado: ', err);
             res.send(err);  
