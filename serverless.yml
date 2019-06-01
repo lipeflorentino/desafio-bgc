@@ -4,6 +4,7 @@ service: serverless-app
 
 custom:
   tableName: 'tb_users'
+  minionTableName: 'tb_minions'
 
 provider:
   name: aws
@@ -21,6 +22,7 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["MinionsDynamoDBTable","Arn" ] }
     - Effect: Allow
       Action:
         - dynamodb:Query
@@ -32,6 +34,7 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
   environment:
     USERS_TABLE: ${self:custom.tableName}
+    MINIONS_TABLE: ${self:custom.minionTableName}
 
 functions:
   app:
@@ -57,6 +60,21 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
         TableName: ${self:custom.tableName}
+    MinionsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: minionId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: minionId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:custom.minionTableName}    
 
 plugins:
   - serverless-offline        
