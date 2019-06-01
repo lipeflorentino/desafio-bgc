@@ -86,12 +86,12 @@ exports.updateUserById = function updateUserById(req, res, callback){
       ReturnValues:"UPDATED_NEW"
     };
     
-    dynamoDb.update(params, (error, result) => {
+    dynamoDb.update(params, function(error, result) {
       if (error) {
         console.log(error);
         res.status(400).json({ error: 'Could not get user' });
       }
-      if (result.Item) {
+      if (result) {
         const {userId, nome, email} = result.Item;
         res.json({ success: true, message: 'User updated!', data: {userId, nome, email} });
       } else {
