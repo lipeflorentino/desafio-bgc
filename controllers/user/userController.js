@@ -1,4 +1,4 @@
-console.log('criei o controller!');
+console.log('criei o controller de usuários!');
 
 const User = require('../../models/user/userModel.js');
 

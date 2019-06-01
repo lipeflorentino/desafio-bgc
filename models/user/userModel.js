@@ -1,4 +1,4 @@
-console.log('criei o model!');
+console.log('criei o model de usuários!');
 
 const AWS = require('aws-sdk');
 const table = process.env.USERS_TABLE;

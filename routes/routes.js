@@ -1,6 +1,9 @@
+console.log('cheguei nas rotas!');
+
 module.exports = function(app) {
     
     const userController = require('../controllers/user/userController');
+    const minionController = require('../controllers/minion/minionController');
     
     //Rota padrão
     app.get('/', function (req, res) {
@@ -14,6 +17,10 @@ module.exports = function(app) {
     app.put('/users/:userId', userController.update_user_by_id);
     app.delete('/users/:userId', userController.delete_user_by_id);
     
-    //outras rotas//
-
+    //Rotas de minions//
+    app.get('/minions', minionController.listar_minions);
+    app.get('/minions/:minionId', minionController.get_minion_by_id);
+    app.post('/minions', minionController.create_minion);
+    app.put('/minions/:minionId', minionController.update_minion_by_id);
+    app.delete('/minions/:minionId', minionController.delete_minion_by_id);
 };    
