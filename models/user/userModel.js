@@ -77,7 +77,7 @@ exports.updateUserById = function updateUserById(req, res, callback){
       Key: {
         userId: req.params.userId,
       },
-      UpdateExpression: "set table.nome = :n, table.email=:e, table.token=:t",
+      UpdateExpression: "set tb_table.nome = :n, tb_table.email=:e, tb_table.token=:t",
       ExpressionAttributeValues:{
           ":n":req.body.nome,
           ":e":req.body.email,
