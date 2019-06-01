@@ -53,7 +53,7 @@ exports.update_user_by_id = function (req, res){
     });
 };
 //metodo do controller para remover um usuário
-exports.deleteUserById = function (req, res){
+exports.delete_user_by_id = function (req, res){
     User.deleteUserById(req, res, function(err, data){
         if(err){
           console.log('resultado: ', err);

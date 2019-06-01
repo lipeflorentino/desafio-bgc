@@ -113,7 +113,7 @@ exports.deleteUserById = function deleteUserById(req, res, callback){
         res.status(400).json({ error: 'Could not get user' });
       }
       if (result) {
-        res.json({ success: true, message: 'User deleted!'});
+        res.json({ success: true, message: 'User deleted!', data: result});
       } else {
         res.status(404).json({ error: "User not found" });
       }
