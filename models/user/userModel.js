@@ -14,13 +14,13 @@ exports.getAllUsers = function getAllUsers(req, res){
     dynamoDb.scan(params, function(error, data) {
       if (error) {
         console.log(error);    
-        return res.status(400).json({ error: 'Could not get user' });
+        return req.status(400).json({ error: 'Could not get user' });
       } else {
         const { Items } = data;
         if(Items){
-            return res.json({Items});
+            return req.json({Items});
         }else{
-            return res.status(404).json({ error: "No user found" });
+            return req.status(404).json({ error: "No user found" });
         }
       }
     });    
@@ -53,13 +53,13 @@ exports.createUser = function createUser(req, res){
     const { userId, nome, email, token } = req.body;
     
     if (userId === '') {
-      res.status(400).json({ error: '"userId" cant be blank' });
+      req.status(400).json({ error: '"userId" cant be blank' });
     } else if (nome === '') {
-      res.status(400).json({ error: '"name" cant be blank' });
+      req.status(400).json({ error: '"name" cant be blank' });
     }else if (email !== '') {
-      res.status(400).json({ error: '"name" cant be blank' });
+      req.status(400).json({ error: '"name" cant be blank' });
     }else if (token !== '') {
-      res.status(400).json({ error: '"name" cant be blank' });
+      req.status(400).json({ error: '"name" cant be blank' });
     }
   
     const params = {
@@ -74,9 +74,9 @@ exports.createUser = function createUser(req, res){
     dynamoDb.put(params, (error) => {
       if (error) {
         console.log(error);
-        res.status(400).json({ error: 'Could not create user' });
+        req.status(400).json({ error: 'Could not create user' });
       }
-      res.json({ userId, nome, email });
+      req.json({ userId, nome, email });
     });      
 };
 //metodo do model para atualizar um usuário
@@ -98,13 +98,13 @@ exports.updateUserById = function updateUserById(req, res){
     dynamoDb.update(params, (error, result) => {
       if (error) {
         console.log(error);
-        res.status(400).json({ error: 'Could not get user' });
+        req.status(400).json({ error: 'Could not get user' });
       }
       if (result.Item) {
         const {userId, nome, email} = result.Item;
-        res.json({ userId, nome, email });
+        req.json({ userId, nome, email });
       } else {
-        res.status(404).json({ error: "User not found" });
+        req.status(404).json({ error: "User not found" });
       }
     });  
 };
@@ -120,12 +120,12 @@ exports.deleteUserById = function deleteUserById(req, res){
     dynamoDb.delete(params, (error, result) => {
       if (error) {
         console.log(error);
-        res.status(400).json({ error: 'Could not get user' });
+        req.status(400).json({ error: 'Could not get user' });
       }
       if (result) {
-        res.json({ result });
+        req.json({ result });
       } else {
-        res.status(404).json({ error: "User not found" });
+        req.status(404).json({ error: "User not found" });
       }
     });  
 };
