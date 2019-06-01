@@ -17,7 +17,7 @@ exports.listar_usuarios = function(req, res){
 };
 //metodo do controller para buscar usuário por id
 exports.get_user_by_id = function (req, res) {
-    User.getUserById(req.params.id, function(err, users){
+    User.getUserById(req, function(err, users){
           if(err){
             console.log('resultado: ', err);
             res.send(err);  
