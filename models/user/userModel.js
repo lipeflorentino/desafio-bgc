@@ -37,13 +37,13 @@ exports.getUserById = function getUserById(req, res){
     dynamoDb.get(params, function(error, data) {
       if (error) {
         console.log(error);
-        res.status(400).json({ error: 'Could not get user' });
+        req.status(400).json({ error: 'Could not get user' });
       }else{
         const { Items } = data;
         if (Items) {
-          res.json({ Items });
+          req.json({ Items });
         } else {
-          res.status(404).json({ error: "User not found" });
+          req.status(404).json({ error: "User not found" });
         }
       }
     });  
