@@ -23,4 +23,12 @@ module.exports = function(app) {
     app.post('/minions', minionController.create_minion);
     app.put('/minions/:minionId', minionController.update_minion_by_id);
     app.delete('/minions/:minionId', minionController.delete_minion_by_id);
+    
+    //Rotas de carrinho//
+    app.get('/usuario_carrinho/:userId', carrinhoController.get_user_carrinho_by_id);
+    app.get('/carrinho/:carrinhoId', carrinhoController.get_carrinho_by_id);
+    app.post('/carrinho', carrinhoController.create_carrinho);
+    app.put('/carrinho/:carrinhoId', carrinhoController.update_carrinho_by_id);
+    app.delete('/carrinho/:carrinhoId', carrinhoController.delete_carrinho_by_id);
+    app.post('/carrinho/addItem/:carrinhoId', carrinhoController.add_item_carrinho);
 };    

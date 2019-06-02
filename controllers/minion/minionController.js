@@ -1,10 +1,10 @@
 console.log('criei o controller de minions!');
 
-const User = require('../../models/minion/minionModel.js');
+const Minion = require('../../models/minion/minionModel.js');
 
 //metodo do controller para listar todas os minion
 exports.listar_minions = function(req, res){
-    User.getAllMinions(req, res, function(err, minions) {
+    Minion.getAllMinions(req, res, function(err, minions) {
         if (err){
           console.log('resultado: ', err);
           return res.send(err);
@@ -17,7 +17,7 @@ exports.listar_minions = function(req, res){
 };
 //metodo do controller para buscar minion por id
 exports.get_minion_by_id = function (req, res) {
-    User.getMinionById(req, res, function(err, minion){
+    Minion.getMinionById(req, res, function(err, minion){
           if(err){
             console.log('resultado: ', err);
             res.send(err);  
@@ -29,7 +29,7 @@ exports.get_minion_by_id = function (req, res) {
 };
 //metodo do controller para criar um minion
 exports.create_minion = function (req, res) {
-    User.createMinion(req, res, function(err, minion){
+    Minion.createMinion(req, res, function(err, minion){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
@@ -41,7 +41,7 @@ exports.create_minion = function (req, res) {
 };
 //metodo do controller para atualizar um minion
 exports.update_minion_by_id = function (req, res){
-    User.updateMinionById(req, res, function(err, minions){
+    Minion.updateMinionById(req, res, function(err, minions){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
@@ -53,7 +53,7 @@ exports.update_minion_by_id = function (req, res){
 };
 //metodo do controller para remover um minion
 exports.delete_minion_by_id = function (req, res){
-    User.deleteMinionById(req, res, function(err, data){
+    Minion.deleteMinionById(req, res, function(err, data){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
