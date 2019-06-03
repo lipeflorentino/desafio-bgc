@@ -16,14 +16,65 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
     dynamoDb.get(params, function(error, data) {
         if (error) {
           console.log(error);
-          res.status(400).json({ error: 'Could not get carrinho' });
+          callback(null, err);
+            //res.status(400).json({ error: 'Could not get carrinho' });
         }
         if (data.Item) {            
-          const {carrinhoId, userId, items} = data.Item;
-            console.log('lista: ' + items);
-          res.json({ carrinhoId, userId, items });
+          const {carrinhoId, userId, items} = data.Item;      
+          const obj = {carrinhoId, userId, items};     
+          //res.json({ carrinhoId, userId, items });          
+          callback(null, obj);    
         } else {
           res.status(404).json({ error: "Carrinho not found" });
         }
     });  
+};
+//metodo do model para criar um carrinho
+exports.createCarrinho = function createCarrinho(req, res, callback){
+    const { carrinhoId, userId, items} = req.body;
+    
+    const params = {
+      TableName: table,
+      Item: {
+        carrinhoId: carrinhoId,  
+        userId: userId,
+        items: items        
+      },
+    };
+  
+    dynamoDb.put(params, function(error, result) {
+      
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error: 'Could not create carrinho' });
+      }
+      res.json({ success: true, message: 'Carrinho created!' , data: {carrinhoId, userId, items} });
+    });      
+};
+//metodo do model para add item no carrinho
+exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){
+    const items = req.body;    
+    const params = {
+        TableName: table,
+        Key: {
+            carrinhoId: req.params.carrinhoId,
+        },
+        UpdateExpression: "set items = :i",
+        ExpressionAttributeValues:{
+          ":i":req.body.items        
+        },
+        ReturnValues:"UPDATED_NEW"
+    };
+    
+    dynamoDb.update(params, function(error, result) {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error: 'Could not get carrinho' });
+      }
+      if (result) {
+        res.json({ success: true, message: 'Carrinho updated!', data: result });
+      } else {
+        res.status(404).json({ error: "Carrinho not found" });
+      }
+    });              
 };
