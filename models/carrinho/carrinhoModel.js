@@ -1,7 +1,7 @@
 console.log('criei o model de carrinho!');
 
 const AWS = require('aws-sdk');
-const table = process.env.CARRINHO_TABLE;
+const table = process.env.CARRINHOS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 //metodo do model para buscar carrinho por id
