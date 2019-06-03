@@ -4,8 +4,8 @@ service: serverless-app
 
 custom:
   tableName: 'users'
-  minionTableName: 'tb_minions'
-  carrinhoTableName: 'tb_carrinho'
+  minionTableName: 'minions'
+  carrinhoTableName: 'carrinhos'
 
 provider:
   name: aws
@@ -45,54 +45,6 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
-
-resources:
-  Resources:
-    UsersDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: userId
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: userId
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-        TableName: ${self:custom.tableName}
-    MinionsDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: minionId
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: minionId
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-        TableName: ${self:custom.minionTableName}    
-    CarrinhosDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: carrinhoId
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: carrinhoId
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-        TableName: ${self:custom.carrinhoTableName}    
 
 plugins:
   - serverless-offline        
