@@ -11,15 +11,16 @@ exports.get_user_carrinho_by_id = function (req, res) {
             console.log('resultado: ', err);
             res.send(err);  
           }else{
-            Carrinho.getCarrinhoById(user, res, function(err, carrinho){
-                  if(err){
-                    console.log('resultado: ', err);
-                    res.send(err);  
-                  }else{
-                    console.log('resultado: ', carrinho);
-                    res.send(carrinho);
-                  }
-            });
+              console.log(user);
+            // Carrinho.getCarrinhoById(user, res, function(err, carrinho){
+            //       if(err){
+            //         console.log('resultado: ', err);
+            //         res.send(err);  
+            //       }else{
+            //         console.log('resultado: ', carrinho);
+            //         res.send(carrinho);
+            //       }
+            // });
           }
     });
 };
