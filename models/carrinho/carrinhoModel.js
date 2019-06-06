@@ -22,7 +22,7 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
           const {carrinhoId, userId, items} = data.Item;      
           const carrinho = {carrinhoId, userId, items};     
           //res.json({ carrinhoId, userId, items });          
-          callback(null, obj);    
+          callback(null, carrinho);    
           return res.json({carrinho});
         } else {
           res.status(404).json({ error: "Carrinho not found" });
@@ -31,9 +31,11 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
 };
 //metodo do model para criar um carrinho
 exports.createCarrinho = function createCarrinho(req, res, callback){
-    const { carrinhoId, userId, items} = req.body;
+    const { userId, items} = req.body;
+    const uuid = require('uuid');
     
-    carrinhoId = carrinhoId;
+    carrinhoId = uuid.v1();  
+    
     const params = {
       TableName: table,
       Item: {

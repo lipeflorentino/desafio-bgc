@@ -50,16 +50,19 @@ exports.getMinionById = function getMinionById(req, res, callback){
 };
 //metodo do model para criar um minion
 exports.createMinion = function createMinion(req, res, callback){
-    const { minionId, nome, descricao, preco } = req.body;
+    const { nome, descricao, preco, qtd } = req.body;
+    const uuid = require('uuid');
     
-    minionId = minionId;
+    minionId = uuid.v1();  
+    
     const params = {
       TableName: table,
       Item: {
         minionId: minionId,
         nome: nome,
         descricao: descricao,
-        preco: preco
+        preco: preco,
+        qtd: qtd
       },
     };
   
@@ -69,7 +72,7 @@ exports.createMinion = function createMinion(req, res, callback){
         console.log(error);
         res.status(400).json({ error: 'Could not create minion' });
       }
-      res.json({ success: true, message: 'Minion created!' , data: {minionId, nome, descricao, preco} });
+      res.json({ success: true, message: 'Minion created!' , data: {minionId, nome, descricao, preco, qtd} });
     });      
 };
 //metodo do model para atualizar um minion

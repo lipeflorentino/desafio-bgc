@@ -1,5 +1,4 @@
 console.log('criei o model de usuários!');
-
 const AWS = require('aws-sdk');
 const table = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -46,14 +45,14 @@ exports.getUserById = function getUserById(req, res, callback){
         } else {
           res.status(404).json({ error: "User not found" });
         }
-    });  
-    userId = Number(userId);
+    });      
 };
 //metodo do model para criar um usuário
 exports.createUser = function createUser(req, res, callback){
-    const { userId, nome, email, pass_token } = req.body;
+    const { nome, email, pass_token } = req.body;
+    const uuid = require('uuid');
     
-    userId = Number(userId);
+    userId = uuid.v1();       
     
     const params = {
       TableName: table,
