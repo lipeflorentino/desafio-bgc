@@ -20,10 +20,10 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
         }
         if (data.Item) {            
           const {carrinhoId, userId, items} = data.Item;      
-          const obj = {carrinhoId, userId, items};     
+          const carrinho = {carrinhoId, userId, items};     
           //res.json({ carrinhoId, userId, items });          
           callback(null, obj);    
-          return res.json({obj});
+          return res.json({carrinho});
         } else {
           res.status(404).json({ error: "Carrinho not found" });
         }
