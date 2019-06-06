@@ -18,7 +18,8 @@ exports.getAllMinions = function getAllMinions(req, res, callback){
       } else {
         const { Items } = data;
         if(Items){
-            return res.json({Items});
+            const minions = Items;
+            return res.json({minions});
         }else{
             return res.status(404).json({ error: "No minion found" });
         }
@@ -51,6 +52,7 @@ exports.getMinionById = function getMinionById(req, res, callback){
 exports.createMinion = function createMinion(req, res, callback){
     const { minionId, nome, descricao, preco } = req.body;
     
+    minionId = minionId;
     const params = {
       TableName: table,
       Item: {

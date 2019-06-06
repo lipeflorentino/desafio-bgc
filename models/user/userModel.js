@@ -18,7 +18,8 @@ exports.getAllUsers = function getAllUsers(req, res, callback){
       } else {
         const { Items } = data;
         if(Items){
-            return res.json({Items});
+            const Users = Items;
+            return res.json({Users});
         }else{
             return res.status(404).json({ error: "No user found" });
         }
@@ -26,11 +27,11 @@ exports.getAllUsers = function getAllUsers(req, res, callback){
     });    
 };
 //metodo do model para buscar usuário por id
-exports.getUserById = function getUserById(req, res, callback){
+exports.getUserById = function getUserById(req, res, callback){    
     const params = {
       TableName: table,
       Key: {
-        userId: req.params.userId,
+        userId: Number(req.params.userId),
       },
     };
     
@@ -46,10 +47,13 @@ exports.getUserById = function getUserById(req, res, callback){
           res.status(404).json({ error: "User not found" });
         }
     });  
+    userId = Number(userId);
 };
 //metodo do model para criar um usuário
 exports.createUser = function createUser(req, res, callback){
     const { userId, nome, email, pass_token } = req.body;
+    
+    userId = Number(userId);
     
     const params = {
       TableName: table,
@@ -75,7 +79,7 @@ exports.updateUserById = function updateUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
-        userId: req.params.userId,
+        userId: Number(req.params.userId),
       },
       UpdateExpression: "set nome = :n, email=:e, pass_token=:t",
       ExpressionAttributeValues:{
@@ -103,7 +107,7 @@ exports.deleteUserById = function deleteUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
-        userId: req.params.userId,
+        userId: Number(req.params.userId),
       }
     };  
       

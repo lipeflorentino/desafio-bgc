@@ -16,14 +16,14 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
     dynamoDb.get(params, function(error, data) {
         if (error) {
           console.log(error);
-          callback(null, err);
-            //res.status(400).json({ error: 'Could not get carrinho' });
+          res.status(400).json({ error: 'Could not get carrinho' });
         }
         if (data.Item) {            
           const {carrinhoId, userId, items} = data.Item;      
           const obj = {carrinhoId, userId, items};     
           //res.json({ carrinhoId, userId, items });          
           callback(null, obj);    
+          return res.json({obj});
         } else {
           res.status(404).json({ error: "Carrinho not found" });
         }
@@ -33,6 +33,7 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
 exports.createCarrinho = function createCarrinho(req, res, callback){
     const { carrinhoId, userId, items} = req.body;
     
+    carrinhoId = carrinhoId;
     const params = {
       TableName: table,
       Item: {

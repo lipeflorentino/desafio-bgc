@@ -54,7 +54,7 @@ resources:
         AttributeDefinitions:
           -
             AttributeName: userId
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           -
             AttributeName: userId
@@ -69,7 +69,7 @@ resources:
         AttributeDefinitions:
           -
             AttributeName: minionId
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           -
             AttributeName: minionId
@@ -84,7 +84,7 @@ resources:
         AttributeDefinitions:
           -
             AttributeName: carrinhoId
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           -
             AttributeName: carrinhoId
