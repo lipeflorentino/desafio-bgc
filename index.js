@@ -9,11 +9,6 @@ const consign = require('consign');
 const routes = require('./routes/routes'); 
 
 
-const port = process.env.PORT || 8081;
-
-//informando ao app qual porta escutar
-app.listen(port);
-console.log('RESTful API - Webedia server started on: ' + port);
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));

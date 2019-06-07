@@ -30,7 +30,7 @@ exports.getUserById = function getUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
-        userId: Number(req.params.userId),
+        userId: req.params.userId,
       },
     };
     
@@ -78,7 +78,7 @@ exports.updateUserById = function updateUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
-        userId: Number(req.params.userId),
+        userId: req.params.userId,
       },
       UpdateExpression: "set nome = :n, email=:e, pass_token=:t",
       ExpressionAttributeValues:{
@@ -106,7 +106,7 @@ exports.deleteUserById = function deleteUserById(req, res, callback){
     const params = {
       TableName: table,
       Key: {
-        userId: Number(req.params.userId),
+        userId: req.params.userId,
       }
     };  
       

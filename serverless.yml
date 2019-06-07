@@ -1,11 +1,13 @@
 # serverless.yml
 
-service: serverless-app
+service: serverless-app-desafioBGC
 
 custom:
-  tableName: 'tb_users'
-  minionTableName: 'tb_minions'
-  carrinhoTableName: 'tb_carrinhos'
+  tableName: 'tb_app_users'
+  minionTableName: 'tb_app_minions'
+  carrinhoTableName: 'tb_app_carrinhos'
+  loginTableName: 'tb_app_logins'
+  vendaTableName: 'tb_app_vendas'
 
 provider:
   name: aws
@@ -22,9 +24,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
-        - { "Fn::GetAtt": ["MinionsDynamoDBTable","Arn" ] }
-        - { "Fn::GetAtt": ["CarrinhosDynamoDBTable","Arn" ] }
+        - { "Fn::GetAtt": ["AppUsersDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["AppMinionsDynamoDBTable","Arn" ] }
+        - { "Fn::GetAtt": ["AppCarrinhosDynamoDBTable","Arn" ] }
+        - { "Fn::GetAtt": ["AppLoginsDynamoDBTable","Arn" ] }
+        - { "Fn::GetAtt": ["AppVendasDynamoDBTable","Arn" ] }
     - Effect: Allow
       Action:
         - dynamodb:Query
@@ -38,6 +42,8 @@ provider:
     USERS_TABLE: ${self:custom.tableName}
     MINIONS_TABLE: ${self:custom.minionTableName}
     CARRINHOS_TABLE: ${self:custom.carrinhoTableName}
+    LOGINS_TABLE: ${self:custom.loginTableName}
+    VENDAS_TABLE: ${self:custom.vendaTableName}
 
 functions:
   app:
@@ -48,7 +54,7 @@ functions:
       
 resources:
   Resources:
-    UsersDynamoDBTable:
+    AppUsersDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
@@ -63,7 +69,7 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
         TableName: ${self:custom.tableName}
-    MinionsDynamoDBTable:
+    AppMinionsDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
@@ -78,7 +84,7 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
         TableName: ${self:custom.minionTableName}    
-    CarrinhosDynamoDBTable:
+    AppCarrinhosDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
@@ -92,7 +98,43 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        TableName: ${self:custom.carrinhoTableName}         
+        TableName: ${self:custom.carrinhoTableName} 
+    AppLoginsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S          
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH          
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:custom.loginTableName}   
+    AppVendasDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+          -
+            AttributeName: vendaId
+            AttributeType: S        
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH
+          -
+            AttributeName: vendaId
+            KeyType: RANGE    
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:custom.vendaTableName}      
 
 plugins:
   - serverless-offline        
