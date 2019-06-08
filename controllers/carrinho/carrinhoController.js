@@ -48,6 +48,7 @@ exports.get_items_carrinho = function(req, res){
             console.log('resultado: ', err);
             res.send(err);  
           }else{
+                        
             console.log('resultado: ', carrinho.items);
             res.send(carrinho.items);
           }

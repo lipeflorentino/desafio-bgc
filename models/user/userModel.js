@@ -48,9 +48,10 @@ exports.getUserById = function getUserById(req, res, callback){
     });      
 };
 //metodo do model para criar um usuário
-exports.createUser = function createUser(req, res, callback){
+exports.createUser = function createUser(req, res, callback){    
     const { nome, email, pass_token } = req.body;
     const uuid = require('uuid');
+    console.log('nome: ' + nome);
     
     userId = uuid.v1();       
     

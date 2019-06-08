@@ -5,6 +5,7 @@ module.exports = function(app) {
     const userController = require('../controllers/user/userController');
     const minionController = require('../controllers/minion/minionController');
     const carrinhoController = require('../controllers/carrinho/carrinhoController');
+    const vendaController = require('../controllers/venda/vendaController');
     
     //Rota padrão
     app.get('/', function (req, res) {
@@ -31,4 +32,8 @@ module.exports = function(app) {
     app.put('/add_item_to_carrinho/:carrinhoId', carrinhoController.add_item_to_carrinho);
     // app.delete('/carrinho/:carrinhoId', carrinhoController.delete_carrinho_by_id);
     app.get('/get_items_carrinho/:carrinhoId', carrinhoController.get_items_carrinho);
+    
+    //Rotas de venda
+    app.get('/vendas/:vendaId', vendaController.get_venda_by_id);
+    app.post('/vendas', vendaController.create_venda);
 };    
