@@ -16,22 +16,19 @@ exports.getCarrinhoById = function getCarrinhoById(req, res, callback){
     dynamoDb.get(params, function(error, data) {
         if (error) {
           console.log(error);
-          res.status(400).json({ error: 'Could not get carrinho' });
+          res.status(400).json({ error: 'Could not get carrinho'});
         }
-        if (data.Item) {            
-          const {carrinhoId, userId, items} = data.Item;      
-          const carrinho = {carrinhoId, userId, items};     
-          //res.json({ carrinhoId, userId, items });          
-          callback(null, carrinho);    
-          return carrinho;
+        if (data.Item) {                            
+            callback(null, data.Item);
+            return data.Item;
         } else {
-          res.status(404).json({ error: "Carrinho not found" });
+          res.status(404).json({ error: "Carrinho not found"});
         }
     });  
 };
 //metodo do model para criar um carrinho
 exports.createCarrinho = function createCarrinho(req, res, callback){
-    const { userId, items} = req.body;
+    const { userId, items_list} = req.body;
     const uuid = require('uuid');
     
     carrinhoId = uuid.v1();  
@@ -41,7 +38,7 @@ exports.createCarrinho = function createCarrinho(req, res, callback){
       Item: {
         carrinhoId: carrinhoId,  
         userId: userId,
-        items: items        
+        items_list: items        
       },
     };
   
@@ -51,20 +48,20 @@ exports.createCarrinho = function createCarrinho(req, res, callback){
         console.log(error);
         res.status(400).json({ error: 'Could not create carrinho' });
       }
-      res.json({ success: true, message: 'Carrinho created!' , data: {carrinhoId, userId, items} });
+      res.json({ success: true, message: 'Carrinho created!' , data: {carrinhoId, userId, items_list} });
     });      
 };
 //metodo do model para add item no carrinho
-exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){
-    const items = req.body;    
+exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){    
+    const items = req.body.list;    
     const params = {
         TableName: table,
         Key: {
             carrinhoId: req.params.carrinhoId,
         },
-        UpdateExpression: "set items = :i",
+        UpdateExpression: "set items_list = :i",
         ExpressionAttributeValues:{
-          ":i":req.body.items        
+          ":i": req.body.list        
         },
         ReturnValues:"UPDATED_NEW"
     };
@@ -72,12 +69,34 @@ exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){
     dynamoDb.update(params, function(error, result) {
       if (error) {
         console.log(error);
-        res.status(400).json({ error: 'Could not get carrinho' });
+        res.status(400).json({ error: 'Could not get carrinho', success: false });
       }
       if (result) {
-        res.json({ success: true, message: 'Carrinho updated!', data: result });
+        return res.json({ success: true, message: 'Carrinho updated!', data: result });         
       } else {
-        res.status(404).json({ error: "Carrinho not found" });
+        return res.status(404).json({ error: "Carrinho not found", success: false });        
       }
     });              
+};
+
+//metodo do model para remover um carrinho
+exports.deleteCarrinhoById = function deleteCarrinhoById(req, res, callback){
+    const params = {
+      TableName: table,
+      Key: {
+        carrinhoId: req.params.carrinhoId,
+      }
+    };  
+      
+    dynamoDb.delete(params, (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error: 'Could not get carrinho', success: false });
+      }
+      if (result) {
+        res.json({ success: true, message: 'Carrinho deleted!', data: result});
+      } else {
+        res.status(404).json({ error: "Carrinho not found", success: false});
+      }
+    });  
 };

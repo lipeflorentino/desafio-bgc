@@ -13,20 +13,20 @@ exports.getAllUsers = function getAllUsers(req, res, callback){
     dynamoDb.scan(params, function(error, data) {
       if (error) {
         console.log(error);    
-        return res.status(400).json({ error: 'Could not get user' });
+        return res.status(400).json({ error: 'Could not get user', success: false });
       } else {
         const { Items } = data;
         if(Items){
             const Users = Items;
-            return res.json({Users});
+            return res.json({Users, success: true});
         }else{
-            return res.status(404).json({ error: "No user found" });
+            return res.status(404).json({ error: "No user found", success: false });
         }
       }
     });    
 };
 //metodo do model para buscar usuário por id
-exports.getUserById = function getUserById(req, res, callback){    
+exports.getUserById = function getUserById(req, res, callback){        
     const params = {
       TableName: table,
       Key: {
@@ -37,13 +37,13 @@ exports.getUserById = function getUserById(req, res, callback){
     dynamoDb.get(params, function(error, data) {
         if (error) {
           console.log(error);
-          res.status(400).json({ error: 'Could not get user' });
+          return res.status(400).json({ error: 'Could not get user', success: false });
         }
         if (data.Item) {
-          const {userId, nome, email} = data.Item;
-          res.json({ userId, nome, email });
+          const {userId, nome, email, carrinhoId} = data.Item;
+          return res.json({ userId, nome, email, carrinhoId, success: true });          
         } else {
-          res.status(404).json({ error: "User not found" });
+          return res.status(404).json({ error: "User not found", success: false });
         }
     });      
 };
@@ -123,3 +123,30 @@ exports.deleteUserById = function deleteUserById(req, res, callback){
       }
     });  
 };
+
+//metodo do user para inserir o id do carrinho no usuario
+exports.insereCarrinhoUsuarioById = function insereCarrinhoUsuarioById(req, res, callback){
+    const params = {
+      TableName: table,
+      Key: {
+        userId: req.params.userId,
+      },
+      UpdateExpression: "set carrinhoId = :c",
+      ExpressionAttributeValues:{
+          ":c":req.body.carrinhoId,          
+      },
+      ReturnValues:"UPDATED_NEW"
+    };
+    
+    dynamoDb.update(params, function(error, result) {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error: 'Could not get user' });
+      }
+      if (result) {
+        res.json({ success: true, message: 'User updated!', data: result });
+      } else {
+        res.status(404).json({ error: "User not found" });
+      }
+    }); 
+}

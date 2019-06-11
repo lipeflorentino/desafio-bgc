@@ -4,17 +4,43 @@ const table = process.env.VENDAS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
+//metodo do model para listar todas as vendas
+exports.getAllVendas = function getAllVendas(req, res, callback){
+    
+    const params = {
+      TableName: table
+    };
+    
+    dynamoDb.scan(params, function(error, data) {
+      if (error) {
+        console.log(error);    
+        return res.status(400).json({ error: 'Could not get vendas' });
+      } else {
+        const { Items } = data;
+        if(Items){
+            const Vendas = Items;
+            return res.json({Vendas});
+        }else{
+            return res.status(404).json({ error: "No vendas found" });
+        }
+      }
+    });    
+};
 
-
-//metodo do model para buscar venda por id
-exports.getVendaById = function getVendaById(req, res, callback){    
+//metodo do model para buscar venda por email do user
+exports.getVendaByEmail = function getVendaByEmail(req, res, callback){ 
+    const e = req.params.email;
+    const v = req.params.vendaId;
+    console.log('email: ' + e);          
+    console.log('vendaId: ' + v);
+    
     const params = {
       TableName: table,
       Key: {
         email: req.params.email,
       },
       Hash: {
-        vendaId: req.params.vendaId,      
+        vendaId: req.params.email,  
       }
     };
     
@@ -24,8 +50,8 @@ exports.getVendaById = function getVendaById(req, res, callback){
           res.status(400).json({ error: 'Could not get venda' });
         }
         if (data.Item) {
-          const {data_venda, qtd_items, items, valor_total} = data.Item;
-          res.json({data_venda, qtd_items, items, valor_total});
+          const {data_venda, qtd_items, nome_items, valor_total} = data.Item;
+          res.json({data_venda, qtd_items, nome_items, valor_total});
         } else {
           res.status(404).json({ error: "Venda not found" });
         }

@@ -20,10 +20,10 @@ exports.get_user_by_id = function (req, res) {
     User.getUserById(req, res, function(err, users){
           if(err){
             console.log('resultado: ', err);
-            res.send(err);  
+            return res.send(err);  
           }else{
             console.log('resultado: ', users);
-            res.send(users);
+            return res.send(users);
           }
     });
 };
@@ -61,6 +61,18 @@ exports.delete_user_by_id = function (req, res){
         }else{
           console.log('resultado: ', data);
           res.send(data);
+        }
+    });
+};
+//metodo para inserir id do carrinho na tabela do usuario
+exports.insere_carrinho_usuario_by_id = function (req, res){
+    User.insereCarrinhoUsuarioById(req, res, function(err, user){
+        if(err){
+          console.log('resultado: ', err);
+          res.send(err);
+        }else{
+          console.log('resultado: ', user);
+          res.send(user);
         }
     });
 };
