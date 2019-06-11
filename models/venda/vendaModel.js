@@ -59,7 +59,8 @@ exports.getVendaByEmail = function getVendaByEmail(req, res, callback){
 };
 
 //metodo do model para criar uma venda
-exports.createVenda = function createVenda(req, res, callback){        
+exports.createVenda = function createVenda(req, res, callback){     
+    console.log('req: ' + req.body);
     const { email, data_venda, qtd_items, nome_items, valor_total } = req.body;
     const uuid = require('uuid');    
     console.log('email: ' + email);    

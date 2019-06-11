@@ -38,7 +38,7 @@ exports.createCarrinho = function createCarrinho(req, res, callback){
       Item: {
         carrinhoId: carrinhoId,  
         userId: userId,
-        items_list: items        
+        items_list: items_list        
       },
     };
   
@@ -52,8 +52,8 @@ exports.createCarrinho = function createCarrinho(req, res, callback){
     });      
 };
 //metodo do model para add item no carrinho
-exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){    
-    const items = req.body.list;    
+exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){        
+    const items = req.body;        
     const params = {
         TableName: table,
         Key: {
@@ -61,7 +61,7 @@ exports.addItemToCarrinho = function addItemToCarrinho(req, res, callback){
         },
         UpdateExpression: "set items_list = :i",
         ExpressionAttributeValues:{
-          ":i": req.body.list        
+          ":i": items        
         },
         ReturnValues:"UPDATED_NEW"
     };

@@ -18,13 +18,14 @@ exports.get_carrinho_by_id = function (req, res) {
 
 //metodo do controller para criar um carrinho
 exports.create_carrinho = function (req, res) {
-    Carrinho.createCarrinho(req, res, function(err, carrinho){
+    Carrinho.createCarrinho(req, res, function(err, result){
         if(err){
           console.log('resultado: ', err);
           res.send(err);
         }else{
-          console.log('resultado: ', carrinho);
-          res.send(carrinho);
+          console.log('resultado: ', result);
+          res.send(result);
+          return result;    
         }  
     });  
 };

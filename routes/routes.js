@@ -30,7 +30,7 @@ module.exports = function(app) {
     //Rotas de carrinho//
     app.get('/carrinho/:carrinhoId', carrinhoController.get_carrinho_by_id);
     app.post('/carrinho', carrinhoController.create_carrinho);
-    app.patch('/add_item_to_carrinho/:carrinhoId', carrinhoController.add_item_to_carrinho);
+    app.put('/add_item_to_carrinho/:carrinhoId', carrinhoController.add_item_to_carrinho);
     app.delete('/carrinho/:carrinhoId', carrinhoController.delete_carrinho_by_id);
     app.get('/get_items_carrinho/:carrinhoId', carrinhoController.get_items_carrinho);
     
