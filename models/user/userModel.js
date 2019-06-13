@@ -40,8 +40,8 @@ exports.getUserById = function getUserById(req, res, callback){
           return res.status(400).json({ error: 'Could not get user', success: false });
         }
         if (data.Item) {
-          const {userId, nome, email, carrinhoId} = data.Item;
-          return res.json({ userId, nome, email, carrinhoId, success: true });          
+          const {userId, nome, carrinhoId} = data.Item;
+          return res.json({ userId, nome, carrinhoId, success: true });          
         } else {
           return res.status(404).json({ error: "User not found", success: false });
         }
@@ -49,18 +49,13 @@ exports.getUserById = function getUserById(req, res, callback){
 };
 //metodo do model para criar um usuário
 exports.createUser = function createUser(req, res, callback){    
-    const { nome, email, pass_token } = req.body;
-    const uuid = require('uuid');
-    console.log('nome: ' + nome);
-    
-    userId = uuid.v1();       
+    const { userId, nome, pass_token } = req.body;
     
     const params = {
       TableName: table,
       Item: {
         userId: userId,
-        nome: nome,
-        email: email,
+        nome: nome,        
         pass_token: pass_token
       },
     };
@@ -71,7 +66,7 @@ exports.createUser = function createUser(req, res, callback){
         console.log(error);
         res.status(400).json({ error: 'Could not create user' });
       }
-      res.json({ success: true, message: 'User created!' , data: {userId, nome, email} });
+      res.json({ success: true, message: 'User created!' , data: {userId, nome} });
     });      
 };
 //metodo do model para atualizar um usuário
@@ -81,10 +76,9 @@ exports.updateUserById = function updateUserById(req, res, callback){
       Key: {
         userId: req.params.userId,
       },
-      UpdateExpression: "set nome = :n, email=:e, pass_token=:t",
+      UpdateExpression: "set nome = :n, pass_token=:t",
       ExpressionAttributeValues:{
-          ":n":req.body.nome,
-          ":e":req.body.email,
+          ":n":req.body.nome,          
           ":t":req.body.pass_token
       },
       ReturnValues:"UPDATED_NEW"

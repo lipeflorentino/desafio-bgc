@@ -36,7 +36,7 @@ module.exports = function(app) {
     
     //Rotas de venda
     app.get('/vendas', vendaController.listar_vendas);
-    app.get('/vendas/?:email&:vendaId', vendaController.get_venda_by_email);
+    app.get('/vendas/:email', vendaController.get_venda_by_email);
     app.post('/vendas', vendaController.create_venda);
     app.post('/vendas/sendmail', vendaController.enviar_email_venda);
 };    

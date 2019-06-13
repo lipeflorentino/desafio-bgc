@@ -29,18 +29,12 @@ exports.getAllVendas = function getAllVendas(req, res, callback){
 
 //metodo do model para buscar venda por email do user
 exports.getVendaByEmail = function getVendaByEmail(req, res, callback){ 
-    const e = req.params.email;
-    const v = req.params.vendaId;
-    console.log('email: ' + e);          
-    console.log('vendaId: ' + v);
-    
+    const e = req.params.email;        
+    console.log('email: ' + e);
     const params = {
       TableName: table,
       Key: {
         email: req.params.email,
-      },
-      Hash: {
-        vendaId: req.params.email,  
       }
     };
     
@@ -59,12 +53,9 @@ exports.getVendaByEmail = function getVendaByEmail(req, res, callback){
 };
 
 //metodo do model para criar uma venda
-exports.createVenda = function createVenda(req, res, callback){     
-    console.log('req: ' + req.body);
+exports.createVenda = function createVenda(req, res, callback){         
     const { email, data_venda, qtd_items, nome_items, valor_total } = req.body;
-    const uuid = require('uuid');    
-    console.log('email: ' + email);    
-    console.log('qtd: ' + qtd_items);    
+    const uuid = require('uuid');         
     vendaId = uuid.v1();       
     
     const params = {
