@@ -27,7 +27,7 @@ exports.get_venda_by_email = function (req, res) {
             res.send(err);  
           }else{
             console.log('resultado: ', venda);
-              const result = {succes: true, vendas: venda }
+              const result = {success: true, vendas: venda }
             res.send(result);
           }
     });
