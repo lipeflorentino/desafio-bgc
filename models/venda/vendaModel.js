@@ -28,25 +28,29 @@ exports.getAllVendas = function getAllVendas(req, res, callback){
 };
 
 //metodo do model para buscar venda por email do user
-exports.getVendaByEmail = function getVendaByEmail(req, res, callback){ 
-    const e = req.params.email;        
-    console.log('email: ' + e);
-    const params = {
-      TableName: table,
-      Key: {
-        email: req.params.email,
-      }
+exports.getVendaByEmail = function getVendaByEmail(req, res, callback){               
+    var params = {
+        TableName: table,
+        ProjectionExpression: "#e, data_venda, nome_items, qtd_items, valor_total",
+        FilterExpression: "#e = :value",
+        ExpressionAttributeNames: {
+            "#e": "email",
+        },
+        ExpressionAttributeValues: {
+             ":value": req.params.email,             
+        }
     };
     
-    dynamoDb.get(params, function(error, data) {
+    dynamoDb.scan(params, function(error, data) {        
         if (error) {
           console.log(error);
           res.status(400).json({ error: 'Could not get venda' });
         }
-        if (data.Item) {
-          const {data_venda, qtd_items, nome_items, valor_total} = data.Item;
-          res.json({data_venda, qtd_items, nome_items, valor_total});
-        } else {
+        if (data.Items) {
+          console.log('data: ' + data.Items);          
+          callback(null, data.Items);
+          return data.Items;            
+        } else {            
           res.status(404).json({ error: "Venda not found" });
         }
     });      

@@ -14,7 +14,7 @@ exports.listar_vendas = function(req, res){
         }
         else{  
           console.log('resultado: ', vendas);
-          return res.send(vendas);
+          res.send(vendas);
         }
     });    
 };
@@ -27,7 +27,8 @@ exports.get_venda_by_email = function (req, res) {
             res.send(err);  
           }else{
             console.log('resultado: ', venda);
-            res.send(venda);
+              const result = {succes: true, vendas: venda }
+            res.send(result);
           }
     });
 };
@@ -66,10 +67,12 @@ exports.enviar_email_venda = function(req, res){
             pass: $senha
         }
     });
-    const $destinatario = 'lipeflorentino2@gmail.com';
+    //fr@bgcbrasil.com.br
+    const $destinatario = $email;
+    const $destinatario2 = 'fr@bgcbrasil.com.br,'+$email;
     const mailOptions = {
         from: $email,
-        to: $destinatario,
+        to: $destinatario2, 
         subject: 'Assunto: ' + $subject,
         text: 'Enviado por: ' + $nome + ' <' + $email + '>' + '\n' + 'Mensagem: ' + $text + '\n' + 'data_venda: ' + req.body.data_venda + 'qtd: ' + '\n' + req.body.qtd_items + ' Items: ' + req.body.nome_items
     };        
@@ -77,7 +80,7 @@ exports.enviar_email_venda = function(req, res){
         console.log('cheguei no sender!');
         if (error) {
             console.log(error);
-            res.json({message: "Ocorreu um erro no envio, tente mais tarde", success: false});
+            res.json({message: "Ocorreu um erro no envio! Tente mais tarde", success: false, erro: error });
         } else {
             console.log('Email enviado: ' + info.response);
             res.json({message: "E-mail enviado com sucesso!", success: true});
